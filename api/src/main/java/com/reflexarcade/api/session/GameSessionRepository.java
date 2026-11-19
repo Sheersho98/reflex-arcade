@@ -2,6 +2,8 @@ package com.reflexarcade.api.session;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GameSessionRepository extends JpaRepository<GameSession, Long> {
+import java.util.List;
 
+public interface GameSessionRepository extends JpaRepository<GameSession, Long> {
+    List<GameSession> findByPlayer_Id(Long playerId);
 }

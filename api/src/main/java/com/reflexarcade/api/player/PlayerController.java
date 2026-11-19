@@ -1,5 +1,7 @@
 package com.reflexarcade.api.player;
 
+import com.reflexarcade.api.session.GameSessionService;
+import com.reflexarcade.api.session.SessionResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +12,11 @@ import java.util.List;
 @RequestMapping("/api/players")
 public class PlayerController {
     private final PlayerService service;
+    private final GameSessionService gameSessionService;
 
-    public PlayerController(PlayerService service){
+    public PlayerController(PlayerService service, GameSessionService gameSessionService){
         this.service = service;
+        this.gameSessionService = gameSessionService;
     }
 
     @PostMapping
@@ -29,6 +33,11 @@ public class PlayerController {
     @GetMapping
     public List<PlayerResponse> list(){
         return service.list();
+    }
+
+    @GetMapping("/{id}/sessions")
+    public List<SessionResponse> listSessionByPlayerId(@PathVariable Long id){
+        return gameSessionService.getSessionByPlayerId(id);
     }
 
     @DeleteMapping("/{id}")
